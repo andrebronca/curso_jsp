@@ -1,0 +1,5 @@
+continuar assistindo: 22.50
+
+
+------------------- PERGUNTAS - PROJETOS ENVIADOS - AULA
+22.48 Falha ao executar  no tomcat 9 ou 10 com jstl do maven

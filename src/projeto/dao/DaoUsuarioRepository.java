@@ -102,7 +102,7 @@ public class DaoUsuarioRepository {
 	
 	public List<ModelLogin> consultaUsuarioList(String nome) throws Exception{
 		List<ModelLogin> loginLista = new ArrayList<ModelLogin>();
-		String sql = "select id, nome, email, login, senha from "+ TABELA +" where lower(nome) like concat('%',lower(?),'%') order by nome";
+		String sql = "select id, nome, email, login, senha from "+ TABELA +" where lower(nome) like concat('%',lower(?),'%') and not useradmin order by nome";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
@@ -131,7 +131,7 @@ public class DaoUsuarioRepository {
 	
 	public List<ModelLogin> getTodosUsuarios() throws Exception{
 		List<ModelLogin> loginLista = new ArrayList<ModelLogin>();
-		String sql = "select id, nome, email, login, senha from "+ TABELA +" order by id";
+		String sql = "select id, nome, email, login, senha from "+ TABELA +" where not useradmin order by id";
 		Statement stm = null;
 		ResultSet rs = null;
 		try {

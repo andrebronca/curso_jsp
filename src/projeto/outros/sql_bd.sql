@@ -20,5 +20,15 @@ CREATE TABLE public.model_login (
  email character varying(255) not null,
  login character varying(255) unique NOT NULL,
  senha character varying(255) NOT NULL
-)
+);
+
+--Definir qual usuário terá o perfil administrador
+alter table model_login add column useradmin boolean not null default false;
+
+alter table model_login add column usuario_id integer;
+
+alter table model_login alter column set usuario_id not null;
+alter table model_login alter column set usuario_id default 2; --nesse caso 2 é o id do admin
+
+alter table model_login add constraint usuario_id_fk foreign key (usuario_id) references model_login(id);
 ----------------------------------------------------------------------------

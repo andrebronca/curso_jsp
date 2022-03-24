@@ -33,4 +33,10 @@ public class Utilitario {
 
 		return sql;
 	}
+	
+	public static void localSqlExceptionMetodo(String classe, String metodo) {
+		System.out.println("-------------- EXCEPTION ------------------");
+		System.err.println("Erro no pacote.classe.método: ["+ classe +"."+ metodo +"]");
+		System.out.println("-------------------------------------------");
+	}
 }

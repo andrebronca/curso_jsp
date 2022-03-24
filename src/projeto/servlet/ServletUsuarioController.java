@@ -18,6 +18,7 @@ import projeto.model.ModelLogin;
 public class ServletUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DaoUsuarioRepository daoUsuario = new DaoUsuarioRepository();
+	private ServletGenericUtil servletGenericUtil = new ServletGenericUtil();
 
 	public ServletUsuarioController() {
 
@@ -51,7 +52,7 @@ public class ServletUsuarioController extends HttpServlet {
 			id = request.getParameter("id");
 			if (id != null && !id.isEmpty()) {
 				try {
-					ModelLogin usuario = daoUsuario.obterUsuario(Long.parseLong(id));
+					ModelLogin usuario = daoUsuario.obterUsuario(Long.parseLong(id), servletGenericUtil.getUserLogadoId(request));
 					request.setAttribute("modelLogin", usuario);
 					setListaTodosUsuarios(request);
 					redirecionar(request, response, "msg", "Usuário em Edição", "principal/usuario.jsp");
@@ -64,7 +65,7 @@ public class ServletUsuarioController extends HttpServlet {
 			nomeBusca = request.getParameter("nome_buscar");
 			if (nomeBusca != null && !nomeBusca.isEmpty()) {
 				try {
-					List<ModelLogin> dadosJsonUser = daoUsuario.consultaUsuarioList(nomeBusca);
+					List<ModelLogin> dadosJsonUser = daoUsuario.consultaUsuarioList(nomeBusca, servletGenericUtil.getUserLogadoId(request));
 					ObjectMapper mapper = new ObjectMapper();
 					String json = mapper.writeValueAsString(dadosJsonUser);
 					response.getWriter().write(json);
@@ -109,7 +110,7 @@ public class ServletUsuarioController extends HttpServlet {
 			cadUserLogin.setLogin(login);
 
 			if (!daoUsuario.validaLogin(cadUserLogin.getLogin())) {
-				daoUsuario.gravarUsuario(cadUserLogin); // grava
+				daoUsuario.gravarUsuario(cadUserLogin, servletGenericUtil.getUserLogadoId(request)); // grava
 				cadUserLogin = daoUsuario.obterUsuario(cadUserLogin.getLogin());
 				msg = "Usuário salvo com sucesso";
 			} else {
@@ -132,7 +133,7 @@ public class ServletUsuarioController extends HttpServlet {
 	private void setListaTodosUsuarios(HttpServletRequest request) {
 		List<ModelLogin> logins;
 		try {
-			logins = daoUsuario.getTodosUsuarios();
+			logins = daoUsuario.getTodosUsuarios(servletGenericUtil.getUserLogadoId(request));
 			request.setAttribute("usuariosLista", logins);
 		} catch (Exception e) {
 			e.printStackTrace();
